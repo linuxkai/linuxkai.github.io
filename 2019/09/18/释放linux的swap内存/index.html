@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.0">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.0" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间 ###第一步：先执行">
+<meta name="keywords" content="swap,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="释放linux的swap内存">
+<meta property="og:url" content="https://www.linuxkai.com/2019/09/18/释放linux的swap内存/index.html">
+<meta property="og:site_name" content="LINUXKAI">
+<meta property="og:description" content="如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间 ###第一步：先执行">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://www.linuxkai.com/images/20190918/231936.jpeg">
+<meta property="og:image" content="https://www.linuxkai.com/images/20190918/232003.jpeg">
+<meta property="og:image" content="https://www.linuxkai.com/images/20190918/232012.jpeg">
+<meta property="og:updated_time" content="2019-09-18T15:22:22.135Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="释放linux的swap内存">
+<meta name="twitter:description" content="如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间 ###第一步：先执行">
+<meta name="twitter:image" content="https://www.linuxkai.com/images/20190918/231936.jpeg">
+  <link rel="canonical" href="https://www.linuxkai.com/2019/09/18/释放linux的swap内存/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>释放linux的swap内存 | LINUXKAI</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">LINUXKAI</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">linuxkai</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="https://www.linuxkai.com/2019/09/18/释放linux的swap内存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Linuxkai">
+      <meta itemprop="description" content="这是描述">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LINUXKAI">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">释放linux的swap内存
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-18 23:13:05 / 修改时间：23:22:22" itemprop="dateCreated datePublished" datetime="2019-09-18T23:13:05+08:00">2019-09-18</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/images/20190918/231936.jpeg" alt><br>如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了<br><strong><em>这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间</em></strong></p>
+<p>###<strong>第一步：先执行sync命令</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#sync</span><br></pre></td></tr></table></figure>
+
+<p>sync命令用于强制被改变的内容立刻写入磁盘，更新超块信息，以防止释放，sync命令则可用来强制将内存缓冲区中的数据立即写入磁盘中。<br>第二步：(如果仅仅是清理swap的话，这一步可以不执行)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#echo 3 &gt; /proc/sys/vm/drop_caches</span><br></pre></td></tr></table></figure>
+
+<p>此指令输入立即生效，意在释放所有缓存。<br>关于drop_caches：<br>drop_caches的详细文档如下：<br>Writing to this will cause the kernel to drop clean caches, dentries and inodes from memory, causing that memory to become free.<br>To free pagecache:</p>
+<ul>
+<li>echo 1 &gt; /proc/sys/vm/drop_caches<br>To free dentries and inodes:</li>
+<li>echo 2 &gt; /proc/sys/vm/drop_caches<br>To free pagecache, dentries and inodes:</li>
+<li>echo 3 &gt; /proc/sys/vm/drop_caches<br>As this is a non-destructive operation, and dirty objects are notfreeable, the user should run “sync” first in order to make sure allcached objects are freed.<br>This tunable was added in 2.6.16.</li>
+<li><em>echo 1:释放页面缓存<br>echo 2:释放目录文件和inodes<br>echo 3:释放所有缓存(页面缓存，目录文件和inodes)*</em><br>如下图是执行完echo3 的cache的对比：<br><img src="/images/20190918/232003.jpeg" alt><br>###<strong>第三步：关闭swap,再开户swap</strong><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#swapoff -a</span><br><span class="line">#swapon -a</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p><img src="/images/20190918/232012.jpeg" alt><br>现在看swap的used的那一项为零了，说明已经清空</p>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/swap/" rel="tag"># swap</a>
+            
+              <a href="/tags/linux/" rel="tag"># linux</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/09/18/zabbix在window下安装/" rel="next" title="zabbix在window下安装">
+                  <i class="fa fa-chevron-left"></i> zabbix在window下安装
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/09/18/解决右键没有新建选项/" rel="prev" title="解决右键没有新建选项">
+                  解决右键没有新建选项 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Linuxkai</p>
+  <div class="site-description" itemprop="description">这是描述</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Linuxkai</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+
+
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
