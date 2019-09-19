@@ -217,6 +217,8 @@
     <span>0%</span>
   </div>
 
+  <a href="https://github.com/linuxkai" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
 
     <main id="main" class="main">
       <div class="main-inner">
@@ -236,7 +238,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Linuxkai">
-      <meta itemprop="description" content="这是描述">
+      <meta itemprop="description" content="一个爱好运维的菜鸟">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -292,7 +294,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p><img src="/images/20190919/001317.jpeg" alt><br>说明 ：如上图，电脑有intel集显的，装好驱动，一般会在桌面右键菜单添加图形属性和图形选项两项(如上图红色框内)，为什么要删除这两项，因为有这两个选项时，每点一次右键，资源管理器进程(explorer.exe)占用的内存都会增加6-8M的内存，最开始explorer.exe也就占用10M多点内存，我们在使用过程中，都会用到右键，或者还会不自觉的右键刷新，这样explorer.exe占用的内存就会越来多，这似乎是intel的一个小bug吧<br>把右键菜单这两项(图形属性和图形选项)去掉，就没有了这种现象</p>
+        <p><img src="/images/20190919/001317.jpeg" alt><br>说明 ：如上图，电脑有intel集显的，装好驱动，一般会在桌面右键菜单添加图形属性和图形选项两项(如上图红色框内)，为什么要删除这两项，因为有这两个选项时，每点一次右键，资源管理器进程(explorer.exe)占用的内存都会增加6-8M的内存，最开始explorer.exe也就占用10M多点内存，我们在使用过程中，都会用到右键，或者还会不自觉的右键刷新，这样explorer.exe占用的内存就会越来多，这似乎是intel的一个小bug吧<br>把右键菜单这两项(图形属性和图形选项)去掉，就没有了这种现象</p><a id="more"></a>
 <p>一般都只有下面两个选项，有些个别电脑可能会有4个选项，删除intel的那两项就可以了(下面两个前面带图标的，很明显)<br>方法：<br>打开注册表，找到以下目录：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CLASSES_ROOT/Directory/Background/shellex/ContextMenuHandlers</span><br></pre></td></tr></table></figure>
 
@@ -376,7 +378,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
   <p class="site-author-name" itemprop="name">Linuxkai</p>
-  <div class="site-description" itemprop="description">这是描述</div>
+  <div class="site-description" itemprop="description">一个爱好运维的菜鸟</div>
 </div>
   <nav class="site-state motion-element">
       <div class="site-state-item site-state-posts">
