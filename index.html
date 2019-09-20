@@ -40,11 +40,11 @@
       appID: '',
       apiKey: '',
       indexName: '',
-      hits: {"per_page":10},
+      hits: "per_pagtrue",
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: './public/search.xml',
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     translation: {
       copy_button: '复制',
@@ -202,9 +202,36 @@
     <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
 
   </li>
+      <li class="menu-item menu-item-search">
+        <a href="javascript:;" class="popup-trigger">
+        
+          <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+      </li>
+    
   </ul>
 
 </nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
 </div>
     </header>
 
@@ -291,7 +318,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/images/20190919/001317.jpeg" alt><br>说明 ：如上图，电脑有intel集显的，装好驱动，一般会在桌面右键菜单添加图形属性和图形选项两项(如上图红色框内)，为什么要删除这两项，因为有这两个选项时，每点一次右键，资源管理器进程(explorer.exe)占用的内存都会增加6-8M的内存，最开始explorer.exe也就占用10M多点内存，我们在使用过程中，都会用到右键，或者还会不自觉的右键刷新，这样explorer.exe占用的内存就会越来多，这似乎是intel的一个小bug吧<br>把右键菜单这两项(图形属性和图形选项)去掉，就没有了这种现象</p>
+          说明 ：如上图，电脑有intel集显的，装好驱动，一般会在桌面右键菜单添加图形属性和图形选项两项(如上图红色框内)，为什么要删除这两项，因为有这两个选项时，每点一次右键，资源管理器进程(explorer.exe)占用的内存都会增加6-8M的内存，最开始explorer.exe也就占用10M多点内存，我们在使用过程中，都会用到右键，或者还会不自觉的右键刷新，这样explorer.exe占用的内存就会越来多，这似乎是intel的一个小bug吧
+把右键菜单这两项(图形属性和图形选项)去掉，就没有了这种现象
+
+一般都只有下面两个选项，有些个别电脑可能会有4个选项，删除intel的那两项就可以了(下面两
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -385,7 +415,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在crontab里  如果使用%比如</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date +%Y%m%d</span><br></pre></td></tr></table></figure><p>%前要转义，不然后会报错，导致任务无法执行，需要改成</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">date +\%Y\%m\%d</span><br></pre></td></tr></table></figure><p>原因：<br>man 文档下有说明：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Percent-signs (%) in the command, unless escaped with backslash (\), will be changed into newline characters, and all data after the first % will be sent to the command as standard input.</span><br></pre></td></tr></table></figure>
+          在crontab里 如果使用%比如
+
+1
+
+
+date +%Y%m%d
+
+
+%前要转义，不然后会报错，导致任务无法执行，需要改成
+
+1
+
+
+date +\%Y\%m\%d
+
+
+原因：
+man 文档下有说明：
+
+1
+
+
+Percent-signs (%) in the command, unless escaped with backslash (\), will be changed into newline characters, and all data after the first % will be sent to the command as standard input.
+
+
+百
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -479,7 +534,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>内容的保存路径：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%APPDATA%\Microsoft\Sticky Notes\StickyNotes.snt(复制到地址栏然后回车)</span><br></pre></td></tr></table></figure><p>把此文件保存下来，再拷贝到另外电脑的相应路径即可！<br>或者找相应的具体的目录：</p>
+          内容的保存路径：
+
+1
+
+
+%APPDATA%\Microsoft\Sticky Notes\StickyNotes.snt(复制到地址栏然后回车)
+
+
+把此文件保存下来，再拷贝到另外电脑的相应路径即可！
+或者找相应的具体的目录：
+
+1
+
+
+C:\Users\Administrator\AppData\Roaming\Microsoft\Sticky Notes（默认目录）
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -573,8 +642,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>将以下代码保存为inf格式的文件，右键安装即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[version]</span><br><span class="line">Signature=$CHICAGO$</span><br><span class="line">[defaultinstall]</span><br><span class="line">addreg=My.add.reg</span><br><span class="line">[My.add.reg]</span><br><span class="line"></span><br><span class="line">HKCR,Directory\Background\shellex\ContextMenuHandlers\New,,0,&quot;&#123;D969A300-E7FF-11d0-A93B-00A0C90F2719&#125;&quot;</span><br></pre></td></tr></table></figure>
+          将以下代码保存为inf格式的文件，右键安装即可
+
+1
+2
+3
+4
+5
+6
+7
+
+
+[version]
+Signature=$CHICAGO$
+[defaultinstall]
+addreg=My.add.reg
+[My.add.reg]
+
+HKCR,Directory\Background\shellex\ContextMenuHandlers\New,,0,"{D969A300-E7FF-11d0-A93B-00A0C90F2719}"
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/18/解决右键没有新建选项/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -659,7 +753,19 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="/images/20190918/231936.jpeg" alt><br>如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了<br><strong><em>这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间</em></strong></p>
+          如上图，一般情况下不会用到swap的，一般物理内存使用在90%以上(默认是这个数，可以自行在/etc/sysctl.conf里设置vm.swappiness参数)，但有的时候，内存会被缓存占用，导致系统开始使用swap空间，此时就需要清理下swap了
+这里先说下vm.swappiness参数，设置成vm.swappiness＝10：就是说当内存使用90%以上才会使用swap空间
+
+###第一步：先执行sync命令
+
+1
+
+
+#sync
+
+
+sync命令用于强制被改变的内容立刻写入磁盘，更新超块信息，以防止释放，sync命令则可用来强制将内存缓冲区中的数据立即写入磁盘中。
+第二步：(如果仅仅是清
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -753,8 +859,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>1.下载好相应的win下的zabbix客户端包<br>2.解压到某个目录(目录任意，我一般都放在c盘根目录)<br>3.cmd下进入到zabbix的bin下的win64目录(我的目录是：C:\zabbix_agents_3.0.4.win\bin\win64,如果你安装32位的就进入到win32目录)<br>4.执行命令：<code>zabbix_agentd -h</code><br><img src="/images/20190918/20190918225900.jpeg" alt><br>5.首先我们要添加到服务，然后再启动(添加到服务方便以后开户自动启动)<br>在这一步，我们要注意应该如何添加服务，不能直接执行命令：zabbix_agentd.exe -i，虽然这一步不会出问题，但到下一步启动的时候会报错误，还是乱码，情况如下图<br><img src="/images/20190918/20190918225919.jpeg" alt><br>经过修改cmd的默认编码得知,错误提示为：服务没有及时响应或控制请求，如下图：<br><img src="/images/20190918/20190918225925.png" alt><br>其实就是没找到配置文件而已，所以我们添加服务的时候，应该指定配置文件的路径，用-c参数<br>zabb-x_agentd.exe -i -c C:\zabbix_agents_3.0.4.win\conf\zabbix_agentd.win.conf<br>这样再启动，就成功了<br><img src="/images/20190918/20190918225932.jpeg" alt><br>再看下任务管理器里，已经有zabbix的进程了<br><img src="/images/20190918/20190918230029.jpeg" alt><br>服务也已经启动了<br><img src="/images/20190918/20190918230045.jpeg" alt><br>最后说明下我是如何修改cmd的编码的<br>1.在cmd下执行：chcp 65001<br>2.打开cmd的属性，切换成字体一项，把字体改为console或者lucida console也可以<br>3.再执行命令就可以看到正常的中文提示了<br><img src="/images/20190918/20190918230056.jpeg" alt><br>要想恢复：<br>1.先把字体改回来<br>2.执行chcp 936,完成了<br>chcp后面的数字说明：<br>437          美国<br>708          阿拉伯文(ASMO 708)<br>720          阿拉伯文(DOS)<br>850          多语言(拉丁文 I)<br>852          中欧(DOS) - 斯拉夫语(拉丁文 II)<br>855          西里尔文(俄语)<br>857          土耳其语<br>860          葡萄牙语<br>861          冰岛语<br>862          希伯来文(DOS)<br>863          加拿大 - 法语<br>865          日耳曼语<br>866          俄语 - 西里尔文(DOS)<br>869          现代希腊语<br>874          泰文(Windows)<br>932          日文(Shift-JIS)<br>936          中国 - 简体中文(GB2312)<br>949          韩文<br>950          繁体中文(Big5)<br>1200         Unicode<br>1201         Unicode (Big-Endian)<br>1250         中欧(Windows)<br>1251         西里尔文(Windows)<br>1252         西欧(Windows)<br>1253         希腊文(Windows)<br>1254         土耳其文(Windows)<br>1255         希伯来文(Windows)<br>1256         阿拉伯文(Windows)<br>1257         波罗的海文(Windows)<br>1258         越南文(Windows)<br>20866        西里尔文(KOI8-R)<br>21866        西里尔文(KOI8-U)<br>28592        中欧(ISO)<br>28593        拉丁文 3 (ISO)<br>28594        波罗的海文(ISO)<br>28595        西里尔文(ISO)<br>28596        阿拉伯文(ISO)<br>28597        希腊文(ISO)<br>28598        希伯来文(ISO-Visual)<br>38598        希伯来文(ISO-Logical)<br>50000        用户定义的<br>50001        自动选择<br>50220        日文(JIS)<br>50221        日文(JIS-允许一个字节的片假名)<br>50222        日文(JIS-允许一个字节的片假名 - SO/SI)<br>50225        韩文(ISO)<br>50932        日文(自动选择)<br>50949        韩文(自动选择)<br>51932        日文(EUC)<br>51949        韩文(EUC)<br>52936        简体中文(HZ)<br>65000        Unicode (UTF-7)<br>65001        Unicode (UTF-8)</p>
+          1.下载好相应的win下的zabbix客户端包
+2.解压到某个目录(目录任意，我一般都放在c盘根目录)
+3.cmd下进入到zabbix的bin下的win64目录(我的目录是：C:\zabbix_agents_3.0.4.win\bin\win64,如果你安装32位的就进入到win32目录)
+4.执行命令：zabbix_agentd -h
 
+5.首先我们要添加到服务，然后再启动(添加到服务方便以后开户自动启动)
+在这一步，我们要注意应该如何添加服务，不能直接执行命令：zabbix_agentd.exe -i，虽然这一步不会出问题，但到下一步启动的时候会报错误，还是乱码，情况如下图
+
+经过修改cm
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/18/zabbix在window下安装/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -839,7 +961,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>####故障说明：<br>由于换电脑了，虚拟机不想再装一遍，就将整个目录都拷贝到另一个电脑，在新机器上启动时便提示下面错误：<br><img src="/images/20190918/20190918203111.jpeg" alt></p><p>####故障原因：<br>这是因为换电脑了，vmare workstation 就会重新生成MAC地址，这样vmare软件和虚拟机系统里配置的mac地址不一样，这就造成了上述错误。</p>
+          ####故障说明：
+由于换电脑了，虚拟机不想再装一遍，就将整个目录都拷贝到另一个电脑，在新机器上启动时便提示下面错误：
+
+
+####故障原因：
+这是因为换电脑了，vmare workstation 就会重新生成MAC地址，这样vmare软件和虚拟机系统里配置的mac地址不一样，这就造成了上述错误。
+
+####解决方法
+
+#####第一种：
+这种方法简单粗暴，直接删除/etc/udev/rules.d/70-persistent-net.rules，然后重启
+
+####第二种：
+1.修改/etc/udev/rules.d/70-persistent-net.rules，将里面eth0网卡的ip地
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -933,7 +1068,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>我们在用tar解压文件的时候，出现如图提示<br><img src="/images/20190918/20190918201243.png" alt></p><h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><p>我们在压缩文件时，使用的是绝对路径，而解压文件时默认使用的是相对路径，所以就会报这个错误</p><h3 id="解决方式："><a href="#解决方式：" class="headerlink" title="解决方式："></a>解决方式：</h3><p>使用参数 -P，</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar zcfP test.tar.gz /data/test1/test2/test.txt</span><br><span class="line">tar xfP test.tar.gz</span><br></pre></td></tr></table></figure>
+          问题：
+我们在用tar解压文件的时候，出现如图提示
+
+
+原因：
+我们在压缩文件时，使用的是绝对路径，而解压文件时默认使用的是相对路径，所以就会报这个错误
+
+解决方式：
+使用参数 -P，
+
+1
+2
+
+
+tar zcfP test.tar.gz /data/test1/test2/test.txt
+tar xfP test.tar.gz
+
+
+但请慎用这个参数，加这个参数，就会按原来的绝对路径解压，如果目标路径有相同文件，会覆盖
+man解释：
+
+1
+2
+
+
+-P, --absolute-names
+      don’t strip leading ‘/’s from file names
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -1027,10 +1188,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="系统信息："><a href="#系统信息：" class="headerlink" title="系统信息："></a>系统信息：</h3><p>系统版本：win10 企业版 1607<br>office版本：office 专业增强版 2016 </p>
-<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><p>excel打开第二个表格很慢，等很久也打不开(2013版本的office也是如此)</p>
-<h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><p>当前文件处于编辑状态下（即光标在单元格内）是不能打开新档的，打开新文档，直接转到当前打开的文档，如果不动，就会一直处于这个状态(我们的感觉就是卡住了)，这时鼠标随便在其它单元格点下，新文件就立马打开了(因为在点的过程中，已经退出了单元格的编辑状态)。所以当我们想打开第二个文件时，要做的就是使单元格不处于编辑状态</p>
+          系统信息：
+系统版本：win10 企业版 1607
+office版本：office 专业增强版 2016 
 
+问题：
+excel打开第二个表格很慢，等很久也打不开(2013版本的office也是如此)
+
+原因：
+当前文件处于编辑状态下（即光标在单元格内）是不能打开新档的，打开新文档，直接转到当前打开的文档，如果不动，就会一直处于这个状态(我们的感觉就是卡住了)，这时鼠标随便在其它单元格点下，新文件就立马打开了(因为在点的过程中，已经退出了单元格的编辑状态)。所以当我们想打开第二个文件时，要做的就是使单元格不处于编辑状态
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/09/18/excel打开第二个表格很慢/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1123,13 +1298,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="Centos7下静默安装Oracle-11g-无图形化界面"><a href="#Centos7下静默安装Oracle-11g-无图形化界面" class="headerlink" title="Centos7下静默安装Oracle 11g(无图形化界面)"></a>Centos7下静默安装Oracle 11g(无图形化界面)</h2><h3 id="说明："><a href="#说明：" class="headerlink" title="说明："></a>说明：</h3><ul>
-<li>因为是静默安装，所以我们不需要安装图形界面<h3 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h3><h4 id="1-准备Centos-7的系统环境"><a href="#1-准备Centos-7的系统环境" class="headerlink" title="1. 准备Centos 7的系统环境"></a>1. 准备Centos 7的系统环境</h4></li>
-<li>系统版本：Centos X64 7.2.1511 (腾讯云)</li>
-<li>内核版本：3.10.0-514.26.2.el7.x86_64</li>
-<li>系统配置：1c,2G</li>
-<li>交换空间:</li>
-</ul>
+          Centos7下静默安装Oracle 11g(无图形化界面)
+说明：
+ * 因为是静默安装，所以我们不需要安装图形界面前期准备
+   1. 准备Centos 7的系统环境
+   
+ * 系统版本：Centos X64 7.2.1511 (腾讯云)
+ * 内核版本：3.10.0-514.26.2.el7.x86_64
+ * 系统配置：1c,2G
+ * 交换空间:
+
+可用内存需要交换空间介于1 GB和2 GB之间RAM大小的1.5倍介于2 GB和16 GB之间等于RAM的大小超过16 GB16 GB默认是不提供swap分区的，这里需要自己动手加一下
+
+1
+2
+3
+4
+5
+
+
+dd if=/dev/
           <!--noindex-->
           
             <div class="post-button text-center">
@@ -1260,7 +1448,67 @@
   <span class="post-meta-divider">|</span>
   <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.4.0</div>
 
+
+<!-- 新增访客统计代码 -->
+
+<div class="busuanzi-count">
+    <script async="" src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      访问用户： <span class="busuanzi-value" id="busuanzi_value_site_uv"></span> 人
+    </span>
+    <div class="powered-by"></div>
+    <span class="site-uv">
+      <i class="fa fa-eye"></i>
+      访问次数： <span class="busuanzi-value" id="busuanzi_value_site_pv"></span> 次
+    </span>
+</div>
+<!-- 新增访客统计代码 END-->
+
+
+<!-- 在网页底部添加网站运行时间 -->
+<span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date();
+    function createtime() {
+        var grt= new Date("09/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+        document.getElementById("timeDate").innerHTML = "运行 "+dnum+" 天 ";
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒";
+    }
+setInterval("createtime()",250);
+</script>
+
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
 
 
 
@@ -1298,6 +1546,8 @@
 
 
 
+
+  <script src="/js/local-search.js?v=7.4.0"></script>
 
 
 
